@@ -1,490 +1,776 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Adnan Parwez · Photonics IC Designer</title>
-    <style>
-        /* ---- Reset & Base ---- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            background-color: #0d1117;
-            color: #e6edf3;
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-            line-height: 1.7;
-            padding: 1.5rem;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            background: #161b22;
-            padding: 2rem 2.5rem;
-            border-radius: 16px;
-            border: 1px solid #2a313c;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adnan Parwez · Photonics IC Designer</title>
+  <meta name="description" content="Adnan Parwez – Photonics Engineer with expertise in Integrated Photonics, MZI/MMI/Ring design, Lumerical, and GDS layout." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
 
-        /* ---- Navigation ---- */
-        .nav {
-            display: flex;
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
-            border-bottom: 1px solid #2a313c;
-            padding-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-        .nav button {
-            background: none;
-            border: none;
-            color: #8b96a8;
-            font-size: 1.1rem;
-            font-weight: 600;
-            padding: 0.4rem 1rem;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: 0.2s;
-        }
-        .nav button:hover {
-            color: #e6edf3;
-            background: #252c3a;
-        }
-        .nav button.active {
-            color: #4fd1c5;
-            background: #1e2b2a;
-        }
+    :root {
+      --ink:       #0a121f;
+      --deep:      #0d1f2d;
+      --navy:      #1a3348;
+      --steel:     #2a4b6a;
+      --blue:      #4fc3f7;
+      --cyan:      #26c6da;
+      --mist:      #b3e5fc;
+      --white:     #f0f5fa;
+      --ff-display: 'Cormorant Garamond', Georgia, serif;
+      --ff-sans:    'Syne', sans-serif;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-        /* ---- Pages (hidden by default) ---- */
-        .page {
-            display: none;
-        }
-        .page.active {
-            display: block;
-        }
+    body {
+      font-family: var(--ff-sans);
+      background: var(--ink);
+      color: var(--white);
+      overflow-x: hidden;
+    }
 
-        /* ---- Headings ---- */
-        h1 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #4fd1c5, #7b9eff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.2rem;
-        }
-        .subhead {
-            color: #8b96a8;
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-        .tagline {
-            color: #4fd1c5;
-            font-weight: 600;
-            font-size: 1rem;
-            letter-spacing: 0.3px;
-            margin-bottom: 1.2rem;
-        }
-        h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #4fd1c5;
-            border-left: 4px solid #4fd1c5;
-            padding-left: 1rem;
-            margin: 2rem 0 1.2rem 0;
-        }
-        h3 {
-            color: #e6edf3;
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-top: 1.4rem;
-        }
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 16px 50px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(10,18,31,0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(79,195,247,0.15);
+    }
+    .nav-logo {
+      font-family: var(--ff-display);
+      font-size: 2.1rem; font-weight: 600;
+      color: var(--white); text-decoration: none;
+      letter-spacing: .04em; cursor: pointer; line-height: 1.1;
+    }
+    .nav-logo span { color: var(--blue); }
+    .nav-logo .nav-tech {
+      font-size: 0.7rem; font-family: var(--ff-sans);
+      letter-spacing: .18em; color: rgba(255,255,255,0.6);
+      display: block; text-transform: uppercase; margin-top: 4px;
+    }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.5);
+      text-decoration: none; font-size: .72rem;
+      letter-spacing: .10em; text-transform: uppercase;
+      transition: color .2s; position: relative; cursor: pointer;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute;
+      bottom: -3px; left: 0; right: 100%;
+      height: 1.5px; background: var(--blue);
+      transition: right .3s var(--ease-out-expo);
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--white); }
+    .nav-links a:hover::after,
+    .nav-links a.active::after { right: 0; }
+    .nav-cta {
+      background: var(--blue) !important;
+      color: var(--ink) !important;
+      font-weight: 700 !important;
+      padding: 6px 18px; border-radius: 4px;
+    }
+    .nav-cta:hover { background: var(--mist) !important; }
+    .nav-cta::after { display: none !important; }
+    .nav-hamburger { display: none; }
 
-        /* ---- CV details ---- */
-        .exp-item {
-            margin-bottom: 1.2rem;
-            padding-left: 0.5rem;
-            border-left: 2px solid #2a313c;
-            padding-left: 1rem;
-        }
-        .exp-item .title {
-            font-weight: 700;
-            font-size: 1.05rem;
-            color: #e6edf3;
-        }
-        .exp-item .org {
-            color: #4fd1c5;
-            font-weight: 500;
-        }
-        .exp-item .date {
-            color: #8b96a8;
-            font-size: 0.9rem;
-            display: block;
-        }
-        .exp-item ul {
-            margin-top: 0.3rem;
-            padding-left: 1.2rem;
-            color: #c9d1d9;
-            font-size: 0.95rem;
-        }
-        .exp-item ul li {
-            margin-bottom: 0.2rem;
-        }
+    /* ── PAGES ── */
+    .page {
+      display: none;
+      min-height: 100vh;
+      flex-direction: column;
+      padding-top: 62px;
+    }
+    .page.active {
+      display: flex;
+      animation: pageIn .45s var(--ease-out-expo);
+    }
+    @keyframes pageIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: none; }
+    }
+    .page > * { flex-shrink: 0; }
 
-        .skill-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.6rem 1.5rem;
-            margin: 0.5rem 0 1rem 0;
-        }
-        .skill-grid span {
-            background: #1e2430;
-            padding: 0.2rem 1rem;
-            border-radius: 20px;
-            border: 1px solid #2a313c;
-            font-size: 0.9rem;
-            color: #c9d1d9;
-        }
+    /* ── BUTTONS ── */
+    .btn-primary {
+      background: var(--blue); color: var(--ink);
+      border: none; padding: 12px 30px;
+      font-family: var(--ff-sans); font-size: .8rem;
+      font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      border-radius: 4px; cursor: pointer; text-decoration: none;
+      display: inline-block;
+      transition: background .2s, transform .2s;
+    }
+    .btn-primary:hover { background: var(--mist); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--white);
+      border: 1px solid rgba(255,255,255,.25); padding: 12px 30px;
+      font-family: var(--ff-sans); font-size: .8rem;
+      font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+      border-radius: 4px; cursor: pointer; text-decoration: none;
+      display: inline-block;
+      transition: border-color .2s, background .2s, transform .2s;
+    }
+    .btn-outline:hover { border-color: var(--blue); background: rgba(79,195,247,.08); transform: translateY(-2px); }
 
-        .pub-item {
-            background: #1e2430;
-            padding: 0.8rem 1.2rem;
-            border-radius: 8px;
-            border-left: 3px solid #4fd1c5;
-            margin: 0.5rem 0;
-            font-size: 0.95rem;
-        }
+    /* ── SHARED ── */
+    .section-label {
+      font-size: .6rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--blue); margin-bottom: 10px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-label::before { content:''; width: 28px; height: 1px; background: var(--blue); }
+    .section-title {
+      font-family: var(--ff-display);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 300; line-height: 1.1; margin-bottom: 16px;
+    }
+    .section-title strong { font-weight: 600; }
 
-        .links a {
-            color: #7b9eff;
-            text-decoration: none;
-            margin-right: 1.2rem;
-        }
-        .links a:hover {
-            color: #4fd1c5;
-            text-decoration: underline;
-        }
+    .content-wrap {
+      max-width: 1200px; margin: 0 auto; padding: 60px 50px;
+    }
+    .content-wrap.narrow { max-width: 1100px; }
 
-        /* ---- PIC Portfolio Cards ---- */
-        .pic-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-top: 1.5rem;
-        }
-        @media (max-width: 800px) {
-            .pic-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        .pic-card {
-            background: #0d1117;
-            border: 1px solid #2a313c;
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: 0.2s;
-        }
-        .pic-card:hover {
-            border-color: #4fd1c5;
-            transform: translateY(-3px);
-        }
-        .pic-card h3 {
-            margin-top: 0;
-            font-size: 1.2rem;
-            color: #4fd1c5;
-        }
-        .pic-card .specs {
-            font-size: 0.9rem;
-            color: #8b96a8;
-            background: #1e2430;
-            padding: 0.3rem 0.8rem;
-            border-radius: 6px;
-            display: inline-block;
-            margin: 0.3rem 0 0.8rem 0;
-        }
-        .pic-card .specs strong {
-            color: #e6edf3;
-        }
-        .pic-card img {
-            width: 100%;
-            max-height: 280px;
-            object-fit: contain;
-            border-radius: 8px;
-            background: #0b0e14;
-            border: 1px solid #2a313c;
-            display: block;
-        }
-        .pic-card .caption {
-            font-size: 0.85rem;
-            color: #8b96a8;
-            margin-top: 0.5rem;
-            font-style: italic;
-            text-align: center;
-        }
+    .card-grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .card {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(79,195,247,.15);
+      border-radius: 10px; padding: 28px;
+      transition: transform .3s, border-color .3s, background .3s;
+    }
+    .card:hover { transform: translateY(-5px); border-color: rgba(79,195,247,.4); background: rgba(79,195,247,.06); }
+    .card-icon { font-size: 2rem; margin-bottom: 12px; }
+    .card-title { font-size: .9rem; font-weight: 700; margin-bottom: 6px; color: var(--mist); }
+    .card-desc { font-size: .78rem; color: rgba(255,255,255,.5); line-height: 1.6; margin-bottom: 12px; }
+    .card-tag {
+      display: inline-block; font-size: .58rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--blue); border: 1px solid rgba(79,195,247,.3); border-radius: 20px; padding: 3px 10px;
+    }
 
-        .note-box {
-            background: #1e2430;
-            border: 1px dashed #2a313c;
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
-            margin-top: 2rem;
-            text-align: center;
-            color: #8b96a8;
-            font-size: 0.95rem;
-        }
+    .cta-block {
+      margin-top: 50px; padding: 36px;
+      background: rgba(79,195,247,.05);
+      border: 1px solid rgba(79,195,247,.15); border-radius: 12px;
+      text-align: center;
+    }
+    .cta-block h3 { font-family: var(--ff-display); font-size: 1.8rem; font-weight: 300; margin-bottom: 8px; }
+    .cta-block p { color: rgba(255,255,255,.5); margin-bottom: 20px; font-size: .9rem; }
 
-        /* ---- Footer ---- */
-        .footer {
-            margin-top: 3rem;
-            text-align: center;
-            color: #5a6472;
-            font-size: 0.85rem;
-            border-top: 1px solid #2a313c;
-            padding-top: 1.5rem;
-        }
+    .site-footer {
+      background: var(--ink);
+      border-top: 1px solid rgba(79,195,247,.1);
+      padding: 24px 50px;
+      margin-top: auto;
+    }
+    .footer-bottom-row {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+    }
+    .footer-copy { font-size: .68rem; color: rgba(255,255,255,.25); }
+    .footer-tagline { font-family: var(--ff-display); font-size: .8rem; font-style: italic; color: rgba(255,255,255,.2); }
 
-        /* ---- Responsive tweaks ---- */
-        @media (max-width: 600px) {
-            .container {
-                padding: 1rem 1.2rem;
-            }
-            .nav {
-                gap: 0.5rem;
-            }
-            .nav button {
-                font-size: 0.95rem;
-                padding: 0.3rem 0.7rem;
-            }
-        }
-    </style>
+    /* ── HERO (HOME) ── */
+    #page-home { background: var(--ink); }
+    .hero-wrap {
+      position: relative; min-height: calc(100vh - 62px);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; padding: 40px 20px;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 40%, #0d2a3a 0%, var(--ink) 70%);
+    }
+    .hero-orbs { position: absolute; inset: 0; overflow: hidden; }
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(80px); animation: orbFloat 14s ease-in-out infinite; opacity: .3;
+    }
+    .orb-1 { width: 500px; height: 500px; background: #1a4b6a; top: -120px; left: -80px; }
+    .orb-2 { width: 450px; height: 450px; background: #0a3d5a; top: 30%; right: -60px; animation-delay: -4s; }
+    .orb-3 { width: 350px; height: 350px; background: #1a5a7a; bottom: 10%; left: 20%; animation-delay: -8s; }
+    @keyframes orbFloat {
+      0%,100% { transform: translate(0,0) scale(1); }
+      33%     { transform: translate(30px,-40px) scale(1.05); }
+      66%     { transform: translate(-20px,30px) scale(.95); }
+    }
+    .cells-hero {
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(79,195,247,.12) 1.5px, transparent 1.5px);
+      background-size: 48px 48px;
+      animation: cellsDrift 30s linear infinite;
+    }
+    @keyframes cellsDrift { 0% { background-position: 0 0; } 100% { background-position: 48px 48px; } }
+    .hero-content {
+      position: relative; z-index: 1;
+      text-align: center; max-width: 900px; padding: 0 20px;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: .65rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--blue); margin-bottom: 20px;
+      opacity: 0; animation: fadeUp .8s var(--ease-out-expo) .2s forwards;
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after {
+      content:''; height: 1px; width: 40px; background: var(--blue); opacity: .5;
+    }
+    .hero-title {
+      font-family: var(--ff-display);
+      font-size: clamp(3.2rem, 9vw, 7rem);
+      font-weight: 300; line-height: .95; letter-spacing: -.01em; margin-bottom: 20px;
+      opacity: 0; animation: fadeUp .9s var(--ease-out-expo) .4s forwards;
+    }
+    .hero-title em { font-style: italic; color: var(--blue); }
+    .hero-title .line2 { display: block; font-weight: 600; }
+    .hero-subtitle {
+      font-size: 1rem; color: rgba(255,255,255,.6);
+      line-height: 1.7; max-width: 560px; margin: 0 auto 36px;
+      opacity: 0; animation: fadeUp .9s var(--ease-out-expo) .6s forwards;
+    }
+    .hero-actions {
+      display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp .9s var(--ease-out-expo) .8s forwards;
+    }
+
+    /* ── STATS ── */
+    .stats-bar {
+      background: var(--deep);
+      border-top: 1px solid rgba(79,195,247,.12);
+      border-bottom: 1px solid rgba(79,195,247,.12);
+      padding: 40px 50px;
+    }
+    .stats-grid {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 2px;
+    }
+    .stat-card {
+      text-align: center; padding: 24px 16px;
+      border-right: 1px solid rgba(79,195,247,.10);
+    }
+    .stat-card:last-child { border-right: none; }
+    .stat-number {
+      font-family: var(--ff-display); font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+      font-weight: 300; color: var(--blue); line-height: 1; margin-bottom: 6px;
+    }
+    .stat-number span { font-weight: 600; }
+    .stat-label { font-size: .65rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.4); }
+
+    /* ── ABOUT PAGE ── */
+    #page-about { background: var(--ink); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .about-visual {
+      aspect-ratio: 1; border-radius: 50%;
+      background: conic-gradient(from 0deg, #0a1a2a, #1a4b6a, #4fc3f7, #1a4b6a, #0a1a2a);
+      animation: rotateSlow 20s linear infinite;
+      display: flex; align-items: center; justify-content: center;
+    }
+    @keyframes rotateSlow { to { transform: rotate(360deg); } }
+    .about-visual-inner {
+      width: 85%; height: 85%; border-radius: 50%;
+      background: var(--ink);
+      display: flex; align-items: center; justify-content: center;
+      animation: rotateSlow 20s linear infinite reverse;
+    }
+    .photonics-svg { width: 160px; height: 160px; }
+    .about-text p { color: rgba(255,255,255,.6); line-height: 1.8; margin-bottom: 16px; font-size: .95rem; }
+    .highlights {
+      display: flex; flex-direction: column; gap: 10px; margin-top: 24px;
+    }
+    .highlight {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 14px 16px;
+      border: 1px solid rgba(79,195,247,.15); border-radius: 6px;
+      background: rgba(79,195,247,.04);
+      transition: border-color .2s, background .2s;
+    }
+    .highlight:hover { border-color: rgba(79,195,247,.4); background: rgba(79,195,247,.08); }
+    .hl-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+    .hl-text strong { display: block; font-size: .8rem; margin-bottom: 2px; }
+    .hl-text span { font-size: .74rem; color: rgba(255,255,255,.5); }
+
+    /* ── PROJECTS (PIC) PAGE ── */
+    #page-projects { background: var(--deep); }
+    .project-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 20px; }
+    .project-card {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(79,195,247,.15);
+      border-radius: 12px; padding: 24px; transition: all .3s;
+    }
+    .project-card:hover { border-color: var(--blue); transform: translateY(-4px); }
+    .project-card h3 { color: var(--blue); font-size: 1.2rem; font-weight: 600; margin-bottom: 6px; }
+    .project-card .specs {
+      font-size: .75rem; color: rgba(255,255,255,.5);
+      background: rgba(0,0,0,.3); padding: 4px 12px; border-radius: 20px;
+      display: inline-block; margin: 6px 0 12px;
+    }
+    .project-card .specs strong { color: var(--white); }
+    .project-card img {
+      width: 100%; max-height: 220px; object-fit: contain;
+      border-radius: 8px; background: #0a121f; border: 1px solid rgba(79,195,247,.1);
+    }
+    .project-card .caption { font-size: .75rem; color: rgba(255,255,255,.4); margin-top: 6px; font-style: italic; text-align: center; }
+
+    /* ── TEAM PAGE ── */
+    #page-team { background: var(--ink); }
+    .team-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 28px; }
+    .team-card { text-align: center; }
+    .team-avatar {
+      width: 100px; height: 100px; border-radius: 50%;
+      margin: 0 auto 12px; background: var(--deep);
+      border: 2px solid rgba(79,195,247,.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem; overflow: hidden;
+      transition: border-color .3s, transform .3s;
+    }
+    .team-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .team-card:hover .team-avatar { border-color: var(--blue); transform: scale(1.05); }
+    .team-name { font-size: .85rem; font-weight: 700; margin-bottom: 4px; }
+    .team-role { font-size: .65rem; color: var(--blue); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 6px; }
+    .team-bio { font-size: .7rem; color: rgba(255,255,255,.4); line-height: 1.5; }
+
+    /* ── CONTACT ── */
+    #page-contact { background: var(--deep); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 60px; }
+    .contact-info-panel p { color: rgba(255,255,255,.5); line-height: 1.8; margin-bottom: 24px; font-size: .92rem; }
+    .contact-details { display: flex; flex-direction: column; gap: 14px; }
+    .contact-detail { display: flex; align-items: flex-start; gap: 12px; }
+    .cd-icon { font-size: 1.1rem; margin-top: 2px; }
+    .cd-text strong { display: block; font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.3); }
+    .cd-text span, .cd-text a { font-size: .85rem; color: rgba(255,255,255,.6); text-decoration: none; }
+    .cd-text a:hover { color: var(--blue); }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 4px; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label { font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.35); }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(79,195,247,.2);
+      color: var(--white); font-family: var(--ff-sans);
+      font-size: .82rem; padding: 10px 14px;
+      border-radius: 4px; outline: none;
+      transition: border-color .2s, background .2s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: var(--blue); background: rgba(79,195,247,.06); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-submit { margin-top: 10px; display: flex; align-items: center; gap: 16px; }
+    #formMsg { font-size: .72rem; color: var(--blue); }
+    #formMsg.error { color: #e07070; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+      .nav-hamburger {
+        display: flex; flex-direction: column; justify-content: space-between;
+        width: 24px; height: 18px; background: none; border: none;
+        cursor: pointer; padding: 0; z-index: 1001;
+      }
+      .nav-hamburger span {
+        display: block; width: 100%; height: 2px;
+        background: var(--blue); border-radius: 2px;
+        transition: all .3s var(--ease-out-expo);
+      }
+      nav.open .nav-hamburger span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+      nav.open .nav-hamburger span:nth-child(2) { opacity: 0; }
+      nav.open .nav-hamburger span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+      nav.open .nav-links {
+        display: flex; flex-direction: column;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: rgba(10,18,31,0.98);
+        border-bottom: 1px solid rgba(79,195,247,.2);
+        padding: 18px 24px 26px; gap: 6px;
+      }
+      nav.open .nav-links a { font-size: .85rem; padding: 8px 0; border-bottom: 1px solid rgba(79,195,247,.08); }
+
+      .content-wrap { padding: 40px 20px; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 30px; }
+      .about-visual { width: 160px; height: 160px; margin: 0 auto; }
+      .card-grid-3, .team-grid { grid-template-columns: 1fr 1fr; }
+      .project-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .stats-bar { padding: 30px 20px; }
+      .hero-title { font-size: clamp(2.8rem, 10vw, 4.5rem); }
+      .site-footer { padding: 20px 24px; }
+    }
+    @media (max-width: 600px) {
+      .team-grid { grid-template-columns: 1fr; }
+      .card-grid-3 { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+
+    ::selection { background: rgba(79,195,247,.25); }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--ink); }
+    ::-webkit-scrollbar-thumb { background: var(--steel); border-radius: 4px; }
+  </style>
 </head>
 <body>
 
-<div class="container">
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a class="nav-logo" onclick="goTo('home')">
+    Adnan<span>Parwez</span>
+    <span class="nav-tech">Photonics · PIC</span>
+  </a>
+  <ul class="nav-links">
+    <li><a data-page="about"     onclick="goTo('about')">About</a></li>
+    <li><a data-page="projects"  onclick="goTo('projects')">Projects</a></li>
+    <li><a data-page="team"      onclick="goTo('team')">Team</a></li>
+    <li><a data-page="contact"   onclick="goTo('contact')" class="nav-cta">Contact</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="this.closest('nav').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 
-    <!-- ====== NAVIGATION ====== -->
-    <div class="nav">
-        <button class="active" data-page="cv">📄 CV / Bio</button>
-        <button data-page="pic">🔬 PIC Design Portfolio</button>
+<!-- ═══ HOME ═══ -->
+<div class="page active" id="page-home">
+  <div class="hero-wrap" style="padding-top:100px;">
+    <div class="hero-bg"></div>
+    <div class="hero-orbs">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
     </div>
-
-    <!-- ========================================================= -->
-    <!-- PAGE 1: CV / BIO (your real details)                      -->
-    <!-- ========================================================= -->
-    <div id="page-cv" class="page active">
-
-        <h1>Adnan Parwez</h1>
-        <div class="subhead">📍 Calle Tenderina Baja, 64 · Oviedo, Spain · 33010</div>
-        <div class="tagline">🔬 Photonics Engineer · Integrated Photonics Designer</div>
-
-        <div class="links">
-            <a href="mailto:adnan.parwez@etu.unilim.fr">✉️ adnan.parwez@etu.unilim.fr</a>
-            <a href="https://www.linkedin.com/in/adnan-parwez" target="_blank">🔗 LinkedIn</a>
-            <a href="https://github.com/adnan-parwez" target="_blank">🐙 GitHub</a>
-        </div>
-
-        <p style="margin: 1.2rem 0 0.5rem 0; color: #c9d1d9;">
-            <strong>Hi, I'm Adnan.</strong> I am a photonics engineer with a deep passion for <strong>Photonic Integrated Circuits (PIC)</strong>.
-            Currently, I work as a Research Assistant at the <strong>University of Oviedo</strong> on LIBS systems, but my true excitement lies in
-            designing and simulating PIC building blocks — <strong>MZI, MMI, Ring Resonators</strong> — using Lumerical, GDSFactory, and KLayout.
-            I'm actively looking for a PhD position in Integrated Photonics.
-        </p>
-
-        <!-- ===== WORK EXPERIENCE ===== -->
-        <h2>💼 Work Experience</h2>
-
-        <div class="exp-item">
-            <span class="title">Research Assistant</span> · <span class="org">University of Oviedo</span>
-            <span class="date">Mar 2026 – Present · Spain</span>
-            <ul>
-                <li>Assisting in setup and alignment of LIBS experimental system for metal analysis.</li>
-                <li>Supporting data acquisition and literature review for methodology development.</li>
-            </ul>
-        </div>
-
-        <div class="exp-item">
-            <span class="title">Photonics Engineer (Trainee)</span> · <span class="org">UPVfab &amp; SPARC Foundry</span>
-            <span class="date">May 2025 – Sep 2025 · Spain</span>
-            <ul>
-                <li>Thin‑film AlN deposition using RF magnetron sputtering.</li>
-                <li>Characterization: AFM, SEM, Ellipsometer, Profilometer, XRD.</li>
-                <li>Waveguide design and mode analysis (Lumerical MODE).</li>
-                <li><strong>Designed MZI, MMI, and Ring Resonator test structures.</strong></li>
-            </ul>
-        </div>
-
-        <div class="exp-item">
-            <span class="title">Research &amp; Teaching Assistant</span> · <span class="org">Universidad Carlos III de Madrid</span>
-            <span class="date">Apr 2024 – Jan 2025 · Spain</span>
-            <ul>
-                <li>Material synthesis (hydrothermal), characterization (XRD, SEM, photoluminescence).</li>
-                <li>Guided students in laboratory experiments.</li>
-            </ul>
-        </div>
-
-        <div class="exp-item">
-            <span class="title">Optical Engineering Intern</span> · <span class="org">ASE Optics Europe</span>
-            <span class="date">Mar 2023 – Aug 2023 · Spain</span>
-            <ul>
-                <li>Tolerance analysis of optical components (Zemax, Code V).</li>
-                <li>Assembly using Opticentric/Optisurf; RMS wavefront error measurement.</li>
-            </ul>
-        </div>
-
-        <!-- ===== EDUCATION ===== -->
-        <h2>🎓 Education</h2>
-
-        <div class="exp-item">
-            <span class="title">Specialized Training in PIC</span> · <span class="org">UPV (PIC Chair)</span>
-            <span class="date">Feb 2025 – Sep 2025 · Spain</span>
-            <ul>
-                <li>PIC Design, Fabrication &amp; Testing</li>
-                <li>Programmable Integrated Photonics, Lidar, Structural Sensing</li>
-            </ul>
-        </div>
-
-        <div class="exp-item">
-            <span class="title">Erasmus Mundus EMIMEO</span> · <span class="org">France / Spain / Italy</span>
-            <span class="date">Sep 2021 – Aug 2023</span>
-            <ul>
-                <li>Master's thesis: ASE Optics Europe (Spain).</li>
-                <li>Studies at UPV/EHU (Spain), UniBS (Italy), UniLimoges (France).</li>
-            </ul>
-        </div>
-
-        <div class="exp-item">
-            <span class="title">M.Sc. Electronics</span> · <span class="org">Jamia Millia Islamia</span>
-            <span class="date">Jul 2019 – Aug 2021 · New Delhi</span>
-        </div>
-
-        <div class="exp-item">
-            <span class="title">B.Sc. Physics</span> · <span class="org">Aligarh Muslim University</span>
-            <span class="date">Aug 2016 – Jul 2019 · India</span>
-        </div>
-
-        <!-- ===== SKILLS ===== -->
-        <h2>🧰 Skills</h2>
-        <div class="skill-grid">
-            <span>Lumerical FDTD / MODE</span>
-            <span>GDSFactory / KLayout</span>
-            <span>Python</span>
-            <span>Zemax OpticStudio</span>
-            <span>Code V</span>
-            <span>RF Magnetron Sputtering</span>
-            <span>AFM / SEM / XRD</span>
-            <span>Profilometer</span>
-            <span>Photoluminescence</span>
-            <span>ADS / CST</span>
-            <span>Origin / Gwyddion</span>
-            <span>MS Office</span>
-        </div>
-
-        <p style="margin-top:0.5rem; color:#8b96a8; font-size:0.95rem;">
-            <strong>Languages:</strong> Hindi (Native) · English (Proficient) · Urdu (Proficient) · Spanish (Basic)
-        </p>
-
-        <!-- ===== PUBLICATION ===== -->
-        <h2>📄 Publication</h2>
-        <div class="pub-item">
-            Calvano, L., Matia‑Hernando, P., <strong>Parwez, A.</strong>, Siegel, T., et al.
-            <em>"Comparison of Tolerancing Simulations and As‑Built Optical Performance in a Precision Optical System."</em>
-            Optical Design and Engineering IX, Proc. SPIE, 2024.
-        </div>
-
-        <!-- ===== AWARDS / SCHOOLS (condensed) ===== -->
-        <h2>🏆 Awards &amp; Schools</h2>
-        <ul style="color:#c9d1d9; padding-left:1.2rem; font-size:0.95rem;">
-            <li>EMIMEO Consortium Scholarship (Erasmus Mundus).</li>
-            <li>Travel grant: Polish NAWA (Photonics Summer School, Warsaw).</li>
-            <li>Travel grant: CSIC‑Institute of Optics (Madrid).</li>
-            <li>Training schools: Poznań (Spectroscopy), Svalbard (Photonics in Arctic), ELI ALPS (Hungary).</li>
-        </ul>
-
+    <div class="cells-hero"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Integrated Photonics · MZI · MMI · Ring Resonator</div>
+      <h1 class="hero-title">
+        Light <em>shaped</em>
+        <span class="line2">at the nanoscale.</span>
+      </h1>
+      <p class="hero-subtitle">
+        I design and simulate Photonic Integrated Circuits — from basic building blocks (MZI, MMI, Ring) to full GDS layouts — using Lumerical, GDSFactory, and KLayout.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="goTo('projects')">View My Projects</button>
+        <button class="btn-outline" onclick="goTo('contact')">Get in Touch</button>
+      </div>
     </div>
+  </div>
 
-    <!-- ========================================================= -->
-    <!-- PAGE 2: PIC DESIGN PORTFOLIO                              -->
-    <!-- ========================================================= -->
-    <div id="page-pic" class="page">
-
-        <h1>🔬 Photonic IC Designs</h1>
-        <p style="color:#8b96a8; margin-bottom:1.5rem;">
-            MZI, MMI, Ring Resonator &amp; Full Chip Layout – simulated in Lumerical, laid out in GDSFactory / KLayout.
-            <br />
-            <span style="color:#5a6472; font-size:0.9rem;">
-                (Images: upload your screenshots to the <strong>images/</strong> folder with the filenames used below.)
-            </span>
-        </p>
-
-        <div class="pic-grid">
-
-            <!-- Card 1: Full Layout -->
-            <div class="pic-card">
-                <h3>📦 Full Chip Layout (GDSII)</h3>
-                <div class="specs"><strong>Tech:</strong> AlN‑on‑Insulator · <strong>Tool:</strong> KLayout / GDSFactory</div>
-                <img src="images/full_layout.png" alt="Full GDS Layout" />
-                <div class="caption">Tape‑out layout with MZI, MMI, and Ring test structures (C‑band).</div>
-            </div>
-
-            <!-- Card 2: Ring Resonator -->
-            <div class="pic-card">
-                <h3>🔁 Ring Resonator</h3>
-                <div class="specs"><strong>Q:</strong> &gt; 15,000 · <strong>ER:</strong> &gt; 20 dB · <strong>FSR:</strong> ~12 nm</div>
-                <img src="images/ring_spectrum.png" alt="Ring resonator transmission" />
-                <div class="caption">Drop / through‑port notches. Simulated in Lumerical FDTD.</div>
-            </div>
-
-            <!-- Card 3: MMI Splitter -->
-            <div class="pic-card">
-                <h3>🔀 MMI (1x2 &amp; 2x2)</h3>
-                <div class="specs"><strong>Excess loss:</strong> &lt; 0.5 dB · <strong>Imbalance:</strong> &lt; −25 dB</div>
-                <img src="images/mmi_simulation.png" alt="MMI field propagation" />
-                <div class="caption">2D FDTD field propagation. Optimised for C‑band.</div>
-            </div>
-
-            <!-- Card 4: Mach‑Zehnder Interferometer -->
-            <div class="pic-card">
-                <h3>⚡ MZI with Phase Shifters</h3>
-                <div class="specs"><strong>Extinction ratio:</strong> &gt; 30 dB · Thermo‑optic (sim.)</div>
-                <img src="images/mzi_spectrum.png" alt="MZI spectrum" />
-                <div class="caption">Deep nulls and high extinction. Designed for modulation.</div>
-            </div>
-
-        </div>
-
-        <!-- ===== NOTE ABOUT ACCESS ===== -->
-        <div class="note-box">
-            ⚡ <strong>Raw design files (.fsp, .gds, Python scripts) are not publicly downloadable</strong> to protect intellectual property.<br />
-            For full access or collaboration, <a href="mailto:adnan.parwez@etu.unilim.fr" style="color:#4fd1c5;">reach out via email</a>.
-        </div>
-
+  <div class="stats-bar">
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-number">6</div><div class="stat-label">PIC Designs</div></div>
+      <div class="stat-card"><div class="stat-number">4</div><div class="stat-label">Simulation Tools</div></div>
+      <div class="stat-card"><div class="stat-number">2</div><div class="stat-label">Fabrication Runs</div></div>
+      <div class="stat-card"><div class="stat-number">1</div><div class="stat-label">Publication</div></div>
     </div>
+  </div>
 
-    <!-- ====== FOOTER ====== -->
-    <div class="footer">
-        Adnan Parwez · 2025 · Built with ❤️ for Photonics
+  <div class="content-wrap">
+    <h2 style="font-family:var(--ff-display);font-weight:300;font-size:2rem;margin-bottom:24px;">What I focus on</h2>
+    <div class="card-grid-3">
+      <div class="card" onclick="goTo('projects')" style="cursor:pointer">
+        <div class="card-icon">🔬</div>
+        <div class="card-title">Chip Design</div>
+        <div class="card-desc">MZI, MMI, Ring resonators – designed in Lumerical MODE/FDTD and laid out in GDS.</div>
+        <span class="card-tag">Simulation →</span>
+      </div>
+      <div class="card" onclick="goTo('projects')" style="cursor:pointer">
+        <div class="card-icon">🧪</div>
+        <div class="card-title">Fabrication</div>
+        <div class="card-desc">AlN sputtering, lithography, AFM/SEM characterization – hands‑on cleanroom experience.</div>
+        <span class="card-tag">Fabrication →</span>
+      </div>
+      <div class="card" onclick="goTo('contact')" style="cursor:pointer">
+        <div class="card-icon">🤝</div>
+        <div class="card-title">PhD Search</div>
+        <div class="card-desc">Looking for a PhD position in Integrated Photonics to push the boundaries of programmable PICs.</div>
+        <span class="card-tag">Collaborate →</span>
+      </div>
     </div>
-
+  </div>
 </div>
 
-<!-- ====== JAVASCRIPT: TAB SWITCHING ====== -->
+<!-- ═══ ABOUT ═══ -->
+<div class="page" id="page-about">
+  <div style="padding:100px 50px 40px;position:relative;background:radial-gradient(ellipse 80% 60% at 50% 40%, #0d2a3a 0%, var(--ink) 70%);border-bottom:1px solid rgba(79,195,247,.1);">
+    <div class="cells-hero" style="position:absolute;inset:0;pointer-events:none;"></div>
+    <div class="content-wrap" style="position:relative;padding:0;max-width:1200px;margin:0 auto;">
+      <div class="section-label">About Me</div>
+      <div class="section-title">Photonics Engineer <br><strong>with a passion for chips.</strong></div>
+      <p style="color:rgba(255,255,255,.5);font-size:.95rem;max-width:580px;">Currently a Research Assistant at the University of Oviedo, but my heart beats for Integrated Photonics. I design and simulate PICs, and I'm actively looking for a PhD to dive deeper into programmable photonics.</p>
+    </div>
+  </div>
+
+  <div class="content-wrap">
+    <div class="about-grid">
+      <div class="about-visual">
+        <div class="about-visual-inner">
+          <svg class="photonics-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="g1" cx="35%" cy="35%"><stop offset="0%" stop-color="#4fc3f7"/><stop offset="100%" stop-color="#0a3d5a"/></radialGradient>
+              <radialGradient id="g2" cx="40%" cy="40%"><stop offset="0%" stop-color="#26c6da"/><stop offset="100%" stop-color="#0a1a2a"/></radialGradient>
+            </defs>
+            <ellipse cx="100" cy="100" rx="38" ry="38" fill="url(#g1)" opacity=".8"><animate attributeName="rx" values="38;40;38" dur="3s" repeatCount="indefinite"/></ellipse>
+            <ellipse cx="60" cy="70" rx="22" ry="22" fill="url(#g2)" opacity=".6"><animate attributeName="cy" values="70;66;70" dur="4s" repeatCount="indefinite"/></ellipse>
+            <ellipse cx="145" cy="80" rx="18" ry="18" fill="url(#g1)" opacity=".5"><animate attributeName="cy" values="80;76;80" dur="3.5s" repeatCount="indefinite"/></ellipse>
+            <ellipse cx="75" cy="140" rx="20" ry="20" fill="url(#g2)" opacity=".6"><animate attributeName="rx" values="20;22;20" dur="5s" repeatCount="indefinite"/></ellipse>
+            <ellipse cx="140" cy="135" rx="16" ry="16" fill="url(#g1)" opacity=".5"><animate attributeName="cy" values="135;131;135" dur="4s" repeatCount="indefinite"/></ellipse>
+            <path d="M100 60 Q120 38 145 52" stroke="#4fc3f7" stroke-width="1.5" fill="none" opacity=".4"/>
+            <path d="M78 100 Q50 95 55 75" stroke="#26c6da" stroke-width="1.5" fill="none" opacity=".4"/>
+            <path d="M100 136 Q85 148 70 140" stroke="#4fc3f7" stroke-width="1.5" fill="none" opacity=".4"/>
+            <circle cx="30" cy="48" r="2" fill="#b3e5fc" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="2s" repeatCount="indefinite"/><animate attributeName="cy" values="48;28;48" dur="2s" repeatCount="indefinite"/></circle>
+            <circle cx="170" cy="58" r="2" fill="#4fc3f7" opacity="0"><animate attributeName="opacity" values="0;0.8;0" dur="2.5s" begin=".8s" repeatCount="indefinite"/><animate attributeName="cy" values="58;36;58" dur="2.5s" repeatCount="indefinite"/></circle>
+          </svg>
+        </div>
+      </div>
+      <div class="about-text">
+        <h2 style="font-family:var(--ff-display);font-weight:300;font-size:1.8rem;margin-bottom:12px;">Hi, I'm Adnan</h2>
+        <p>I'm a photonics engineer trained in the Erasmus Mundus EMIMEO program, with a specialization in Integrated Photonics from the UPV PIC Chair. I have hands‑on experience in cleanroom fabrication (AlN sputtering) and extensive simulation work using Lumerical, GDSFactory, and KLayout.</p>
+        <p>I've designed MZI, MMI, and Ring Resonator test structures, and I'm now looking for a PhD opportunity to delve deeper into programmable photonics, LiDAR, or quantum photonics.</p>
+        <div class="highlights">
+          <div class="highlight">
+            <span class="hl-icon">🎓</span>
+            <div class="hl-text"><strong>Erasmus Mundus Scholar</strong><span>EMIMEO Master’s in Microwave &amp; Photonics (France, Spain, Italy)</span></div>
+          </div>
+          <div class="highlight">
+            <span class="hl-icon">💡</span>
+            <div class="hl-text"><strong>PIC Designer</strong><span>Lumerical MODE/FDTD, GDSFactory, KLayout – full design flow</span></div>
+          </div>
+          <div class="highlight">
+            <span class="hl-icon">🧪</span>
+            <div class="hl-text"><strong>Fabrication Experience</strong><span>RF sputtering, AFM, SEM, XRD, profilometry at UPVfab cleanroom</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PROJECTS (PIC) ═══ -->
+<div class="page" id="page-projects">
+  <div style="padding:100px 50px 40px;background:radial-gradient(ellipse 80% 60% at 50% 40%, #0a2818 0%, var(--deep) 70%);border-bottom:1px solid rgba(79,195,247,.1);">
+    <div class="content-wrap" style="padding:0;max-width:1200px;margin:0 auto;">
+      <div class="section-label">My Work</div>
+      <div class="section-title">Integrated Photonics<br><strong>Designs</strong></div>
+      <p style="color:rgba(255,255,255,.5);max-width:580px;">MZI, MMI, Ring Resonator – simulated in Lumerical and laid out in GDS. (Images: upload your own screenshots to the <strong>images/</strong> folder and update filenames below.)</p>
+    </div>
+  </div>
+
+  <div class="content-wrap narrow">
+    <div class="project-grid">
+      <!-- Full Layout -->
+      <div class="project-card">
+        <h3>📦 Full Chip Layout</h3>
+        <div class="specs"><strong>Tech:</strong> AlN‑on‑Insulator · <strong>Tool:</strong> KLayout / GDSFactory</div>
+        <img src="images/full_layout.png" alt="Full GDS Layout" />
+        <div class="caption">Tape‑out layout with MZI, MMI, and Ring test structures.</div>
+      </div>
+      <!-- Ring -->
+      <div class="project-card">
+        <h3>🔁 Ring Resonator</h3>
+        <div class="specs"><strong>Q:</strong> &gt; 15,000 · <strong>ER:</strong> &gt; 20 dB · <strong>FSR:</strong> ~12 nm</div>
+        <img src="images/ring_spectrum.png" alt="Ring spectrum" />
+        <div class="caption">Drop / through‑port notches. Simulated in Lumerical FDTD.</div>
+      </div>
+      <!-- MMI -->
+      <div class="project-card">
+        <h3>🔀 MMI Splitter</h3>
+        <div class="specs"><strong>Excess loss:</strong> &lt; 0.5 dB · <strong>Imbalance:</strong> &lt; −25 dB</div>
+        <img src="images/mmi_simulation.png" alt="MMI field propagation" />
+        <div class="caption">2D FDTD field propagation. Optimised for C‑band.</div>
+      </div>
+      <!-- MZI -->
+      <div class="project-card">
+        <h3>⚡ MZI with Phase Shifters</h3>
+        <div class="specs"><strong>Extinction ratio:</strong> &gt; 30 dB · Thermo‑optic (sim.)</div>
+        <img src="images/mzi_spectrum.png" alt="MZI spectrum" />
+        <div class="caption">Deep nulls and high extinction. Designed for modulation.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:40px;text-align:center;">
+      <p style="color:rgba(255,255,255,.4);font-size:.8rem;">
+        ⚡ Raw design files (.fsp, .gds, Python scripts) are not publicly downloadable.<br>
+        For full access, <a href="mailto:adnan.parwez@etu.unilim.fr" style="color:var(--blue);">email me</a>.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TEAM ═══ -->
+<div class="page" id="page-team">
+  <div style="padding:100px 50px 40px;background:radial-gradient(ellipse 80% 60% at 50% 40%, #0d2a3a 0%, var(--ink) 70%);border-bottom:1px solid rgba(79,195,247,.1);">
+    <div class="content-wrap" style="padding:0;max-width:1200px;margin:0 auto;">
+      <div class="section-label">Collaborators</div>
+      <div class="section-title">People I work with<br><strong></strong></div>
+      <p style="color:rgba(255,255,255,.5);max-width:580px;">Colleagues and friends who share my passion for photonics and materials.</p>
+    </div>
+  </div>
+
+  <div class="content-wrap narrow">
+    <div class="team-grid">
+      <!-- Add/remove team cards as needed. Replace image filenames or use emoji fallback -->
+      <div class="team-card">
+        <div class="team-avatar"><img src="affan.jpeg" alt="Affan" onerror="this.style.display='none';this.parentElement.textContent='👨‍🔬'"></div>
+        <div class="team-name">Md Affan Parwez</div>
+        <div class="team-role">Research Lead</div>
+        <div class="team-bio">Doctoral Researcher at VU, Lithuania</div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><img src="Asif.jpeg" alt="Asif" onerror="this.style.display='none';this.parentElement.textContent='👨‍💼'"></div>
+        <div class="team-name">Mohammad Asif Nasim</div>
+        <div class="team-role">Marketing Lead</div>
+        <div class="team-bio">MBA from AMU, India</div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><img src="Umar.jpeg" alt="Umar" onerror="this.style.display='none';this.parentElement.textContent='👨‍🔬'"></div>
+        <div class="team-name">Mohammad Umar</div>
+        <div class="team-role">Research Engineer</div>
+        <div class="team-bio">Doctoral Candidate at SAS, Slovakia</div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><img src="Tanveer.jpeg" alt="Tanveer" onerror="this.style.display='none';this.parentElement.textContent='👨‍🌾'"></div>
+        <div class="team-name">Tanveer Ahmad</div>
+        <div class="team-role">Sales Engineer</div>
+        <div class="team-bio">Master's in Agronomy, AMU</div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><img src="Danish.jpeg" alt="Danish" onerror="this.style.display='none';this.parentElement.textContent='👨‍🔬'"></div>
+        <div class="team-name">Mohammad Danish</div>
+        <div class="team-role">Researcher</div>
+        <div class="team-bio">Doctoral Candidate at SAS, Slovakia</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CONTACT ═══ -->
+<div class="page" id="page-contact">
+  <div style="padding:100px 50px 40px;background:radial-gradient(ellipse 80% 60% at 50% 40%, #0a2818 0%, var(--deep) 70%);border-bottom:1px solid rgba(79,195,247,.1);">
+    <div class="content-wrap" style="padding:0;max-width:1200px;margin:0 auto;">
+      <div class="section-label">Get in Touch</div>
+      <div class="section-title">Let's talk photonics<br><strong></strong></div>
+      <p style="color:rgba(255,255,255,.5);max-width:580px;">Whether you're offering a PhD position, a research collaboration, or just want to discuss PICs – drop me a line.</p>
+    </div>
+  </div>
+
+  <div class="content-wrap narrow">
+    <div class="contact-grid">
+      <div class="contact-info-panel">
+        <h2 style="font-family:var(--ff-display);font-weight:300;font-size:1.8rem;margin-bottom:12px;">Reach me</h2>
+        <p>I reply within 48 hours. Or email me directly.</p>
+        <div class="contact-details">
+          <div class="contact-detail">
+            <span class="cd-icon">📍</span>
+            <div class="cd-text"><strong>Location</strong><span>Oviedo, Spain</span></div>
+          </div>
+          <div class="contact-detail">
+            <span class="cd-icon">📧</span>
+            <div class="cd-text"><strong>Email</strong><a href="mailto:adnan.parwez@etu.unilim.fr">adnan.parwez@etu.unilim.fr</a></div>
+          </div>
+          <div class="contact-detail">
+            <span class="cd-icon">🔗</span>
+            <div class="cd-text"><strong>LinkedIn</strong><a href="https://www.linkedin.com/in/adnan-parwez" target="_blank">linkedin.com/in/adnan-parwez</a></div>
+          </div>
+          <div class="contact-detail">
+            <span class="cd-icon">🐙</span>
+            <div class="cd-text"><strong>GitHub</strong><a href="https://github.com/adnan-parwez" target="_blank">github.com/adnan-parwez</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <form id="contactForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="fname">Full Name *</label>
+              <input type="text" id="fname" required placeholder="Your Name">
+            </div>
+            <div class="form-group">
+              <label for="femail">Email *</label>
+              <input type="email" id="femail" required placeholder="your@email.com">
+            </div>
+            <div class="form-group">
+              <label for="ftype">I am a…</label>
+              <select id="ftype">
+                <option value="phd">PhD Supervisor</option>
+                <option value="researcher">Researcher</option>
+                <option value="partner">Industry Partner</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fsubject">Subject *</label>
+              <input type="text" id="fsubject" required placeholder="PhD opportunity / Collaboration">
+            </div>
+            <div class="form-group full">
+              <label for="fmessage">Message *</label>
+              <textarea id="fmessage" required placeholder="Tell me about your interest…"></textarea>
+            </div>
+          </div>
+          <div class="form-submit">
+            <button type="submit" class="btn-primary">Send Message</button>
+            <div id="formMsg"></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="site-footer">
+  <div class="footer-bottom-row">
+    <div class="footer-copy">© 2025 Adnan Parwez. All rights reserved.</div>
+    <div class="footer-tagline">Designing the future of light.</div>
+  </div>
+</footer>
+
 <script>
-    document.querySelectorAll('.nav button').forEach(btn => {
-        btn.addEventListener('click', function() {
-            // Remove active class from all buttons
-            document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-
-            // Hide all pages
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-
-            // Show the selected page
-            const pageId = 'page-' + this.dataset.page;
-            document.getElementById(pageId).classList.add('active');
-        });
+  /* ── SPA ROUTER ── */
+  function goTo(page) {
+    document.querySelector('nav').classList.remove('open');
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById('page-' + page);
+    if (target) { target.classList.add('active'); window.scrollTo(0, 0); }
+    document.querySelectorAll('.nav-links a[data-page]').forEach(a => {
+      a.classList.toggle('active', a.dataset.page === page);
     });
-</script>
+  }
 
+  /* ── CONTACT FORM → mailto ── */
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name    = document.getElementById('fname').value.trim();
+    const email   = document.getElementById('femail').value.trim();
+    const type    = document.getElementById('ftype').value;
+    const subject = document.getElementById('fsubject').value.trim();
+    const message = document.getElementById('fmessage').value.trim();
+    const msgEl   = document.getElementById('formMsg');
+
+    if (!name || !email || !subject || !message) {
+      msgEl.className = 'error';
+      msgEl.textContent = 'Please fill in all required fields.';
+      return;
+    }
+
+    const body = `Name: ${name}\nEmail: ${email}\nRole: ${type}\n\n${message}`;
+    window.location.href =
+      'mailto:adnan.parwez@etu.unilim.fr' +
+      '?subject=' + encodeURIComponent('[PIC] ' + subject) +
+      '&body='    + encodeURIComponent(body);
+
+    msgEl.className = '';
+    msgEl.textContent = '✓ Opening your email client…';
+    setTimeout(() => msgEl.textContent = '', 5000);
+  });
+</script>
 </body>
 </html>
